@@ -23,6 +23,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.scrounger.countrycurrencypicker.library.Country;
 import com.scrounger.countrycurrencypicker.library.CountryCurrencyAdapter;
@@ -88,9 +89,13 @@ public class CountryCurrencyButton extends AppCompatButton implements CountryCur
         if (mCountry != null) {
             setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getContext(), mCountry.getFlagId()), null, null, null);
             if (isShowCurrency() && mCountry.getCurrency() != null) {
-                setText(String.format("%s (%s)", mCountry.getName(), mCountry.getCurrency().getSymbol()));
+                //setText(String.format("%s (%s)", mCountry.getName(), mCountry.getCurrency().getSymbol()));
+                setText(mCountry.getCurrency().getCode());
             } else {
-                setText(mCountry.getName());
+                Log.d("country name", mCountry.getName());
+                Currency currency = Currency.getCurrency(mCountry.getCode(), this.getContext());
+                assert currency != null;
+                setText(currency.getCode());
             }
         }
     }
